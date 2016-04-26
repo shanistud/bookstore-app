@@ -1,3 +1,4 @@
+<!-- 
 <!DOCTYPE html>
 <html>
   <head>
@@ -6,6 +7,68 @@
   </head>
   <body>
     <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
+    <p>Welcome to fuck you <%= title %></p>
   </body>
+</html>
+ -->
+
+
+
+
+<html>
+
+  <head>
+    <title>Bookstore App</title>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular.min.js"></script>
+    <script src="//cdn.rawgit.com/angular-ui/ui-router/0.2.13/release/angular-ui-router.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.css" />
+    <script src="js/app.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+    <base href="/">
+  </head>
+
+  <body ng-app="bookstoreApp">
+    
+    <div class="row">
+      <div class="col-md-6 col-md-offset-3">
+        <h1>heading 1</h1>
+        <ui-view></ui-view>
+        <base href="/">
+      </div>
+    </div>
+    
+  <script type="text/ng-template" id="/home.html">
+    
+    <form ng-submit="searchBooks()" style="margin-top:30px;">
+      <div class="form-group">
+        <input type="text" class="form-control" placeholder="Search books..." ng-model="bookSearchExp">
+      </div>
+      <div class="form-group">
+          <button type="submit" class="btn btn-primary">Search</button>
+      </div>
+    </form>
+    <div ng-repeat="book in books | orderBy:'id'">
+      <div class="row">
+        <div class="col-md-6">
+          <a href="#/books/{{book._id}}">
+            <span> {{book.name}} </span>
+          </a>
+        </div>
+        <div class="col-md-6">{{book.genre.name}}</div>
+        
+      </div>
+    </div>
+  </script>
+  
+  <script type="text/ng-template" id="/books.html">
+  <div class="form-group">
+      {{book.name}}
+    </div>
+    <div class="form-group">
+      {{book.description}}
+    </div>
+  </script>
+      
+  </body>
+
 </html>

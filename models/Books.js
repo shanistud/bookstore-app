@@ -14,16 +14,10 @@ BookSchema.pre('save', function (next)
 {
     if (!this.genre)
     {
-    console.log("no genre");
-    console.log(this.genre);
-    console.log("   bla");
     	next();
     }
     else
     {
-      console.log("yes genre");
-    console.log(this.genre);
-    console.log("   bla");
     	GenreModel.findById(this.genre, function (err, existingGenre) 
     	{
     		if (existingGenre)
@@ -37,6 +31,5 @@ BookSchema.pre('save', function (next)
         });
     }
 });
-
 
 mongoose.model('Book', BookSchema);
