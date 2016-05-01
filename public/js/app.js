@@ -1,87 +1,100 @@
 'use strict';
   
-var app = angular.module('bookstoreApp', ['ui.router']);
+var app = angular.module('bookstoreApp', 
+['ui.router',
+'ui.bootstrap',
+'bookstoreApp.services',
+'bookstoreApp.controllers']);
 
 app.config([
 '$stateProvider',
 '$urlRouterProvider',
-function($stateProvider, $urlRouterProvider) {
-
-  $stateProvider
-    .state('home', {
-      url: '/home',
-      templateUrl: '/home.html',
-      controller: 'MainCtrl',
-      resolve: 
-      {
-   		postPromise: ['books', function(books)
-   		{
-      		return books.getAll();
-         }]}})
-    
-    .state('books', {
-      url: '/books/{id}',
-      templateUrl: '/books.html',
-      controller: 'BooksCtrl'
-    });
-     
-  $urlRouterProvider.otherwise('home');
-}]);
-
-
-app.factory('books', ['$http', function($http)
+function($stateProvider, $urlRouterProvider) 
 {
-  var _books = [];
-  var _selectedBook = {};
-  var o = {
-  			books: _books,
-  			selectedBook: _selectedBook,
-  			
-            getAll: function()
-            {
-            	 $http.get('http://localhost:3000/api/books').success(function(data)
-            	{
-					angular.copy(data, _books);
-      			});
-      			
-      			return this.books;
-            },
-            
-            getBook: function(id)
-            {
-            
-            	 $http.get('http://localhost:3000/api/books/' + id).success(function(data)
-            	{
-					angular.copy(data, _selectedBook);
-      			});
-      			
-      			return this.selectedBook;
-            }
-            
-          }
-          
-  return o;
-}]);
-
-
-app.controller('MainCtrl', [
-'$scope', 
-'books',
-function($scope, books)
-{
+	$stateProvider
 	
-    $scope.books = books.getAll();
-  
-  // $scope.searchBooks = function(){
-//   };
-  
+	.state('home',
+	{
+		url: '/admins',
+		templateUrl: '/partials/admins.ejs',
+		controller: 'AdminsCtrl' ,
+		onEnter: ['$state', 'authService', function($state, authService)
+		{
+	 		if(!authService.isLoggedIn())
+	 		{
+				$state.go('login');
+			}
+		}]
+		// ,
+// 		resolve: 
+// 		{
+// 			postPromise: ['booksService', function(booksService)
+// 			{
+// 				return booksService.getAll();
+// 			}]
+// 		}
+	})
+    
+    .state('clients',
+	{
+		url: '/clients',
+		templateUrl: '/partials/clients.ejs',
+		controller: 'ClientsCtrl',
+		onEnter: ['$state', 'authService', function($state, authService)
+		{
+	 		if(!authService.isLoggedIn())
+	 		{
+				$state.go('login');
+			}
+		}]
+	})
+	
+	.state('books', 
+	{
+	  url: '/books/{id}',
+	  templateUrl: '/partials/books.ejs',
+	  controller: 'BooksCtrl',
+		onEnter: ['$state', 'authService', function($state, authService)
+		{
+	 		if(!authService.isLoggedIn())
+	 		{
+				$state.go('login');
+			}
+		}]
+	})
+	
+	.state('login', 
+	{
+		url: '/login',
+		templateUrl: '/partials/login.ejs',
+		controller: 'AuthCtrl',
+		onEnter: ['$state', 'authService', function($state, authService)
+		{
+	 		if(authService.isLoggedIn())
+	 		{
+				$state.go('home');
+			}
+		}]
+	})
+	
+	.state('register', 
+	{
+		  url: '/register',
+		  templateUrl: '/partials/register.ejs',
+		  controller: 'AuthCtrl',
+		  onEnter: ['$state', 'authService', function($state, authService)
+		  {
+		  	if(authService.isLoggedIn())
+		  	{
+		  		$state.go('home');
+		  	}
+		  }]
+});
+     
+  $urlRouterProvider.otherwise('login');
 }]);
 
-app.controller('BooksCtrl', [
-'$scope', 
-'$stateParams',
-'books',
-function($scope, $stateParams, books)
-{
-	$scope.book = books.getBook($stateParams.id);
-}]);
+angular.module('bookstoreApp.services', []);
+angular.module('bookstoreApp.controllers', []);
+
+

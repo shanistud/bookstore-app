@@ -1,0 +1,44 @@
+<div class="container-fluid">
+	<form ng-submit="searchBooks()" class="form-inline" style="margin-top:30px;">
+      
+      <div class="form-group" >
+        <input type="text" style="width: 400;" class="form-control" placeholder="Search books..." ng-model="bookSearchExp">
+      </div>
+      <div class="form-group">
+          <button type="submit" class="btn btn-primary" style="float: right;">Search</button>
+      </div>
+    </form>
+    
+	<div ng-repeat="book in books | orderBy:'id'">
+		<div class="row"">
+	 
+			  <div class="col-md-7">
+				  <a href="#/books/{{book._id}}">
+						<h4> {{book.name}}</h4>
+				   </a>
+			  </div>
+		
+			   <div class="col-md-5" STYLE="padding-right: 100px;">
+				   <h5 style="color: #008000"><B>{{book.genre.name}}</B></h5>
+			   </div>
+		 </div>
+ 
+		 <div class="row">
+			  <div class="col-md-10">
+				<p>{{book.description}}</p>
+			  </div>  
+		</div>    
+	</div>
+
+
+
+	<uib-pagination total-items="totalQueryResults" 
+		ng-model="currentPage" ng-change="loadBooksDefault()"
+		items-per-page="resultsPerPage" ng-hide="paginationHide" max-size="10">
+	</uib-pagination>
+  <div class="text-center" ng-show="resultsMessage"><h5>{{resultsMessage}}</h5></div>
+  
+   </div>
+   
+   
+   

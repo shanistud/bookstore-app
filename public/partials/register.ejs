@@ -1,0 +1,29 @@
+		<div class="page-header">
+			<h1></h1>
+		</div>
+
+
+		<form ng-submit="register()" style="margin-top:30px;">
+			<h3>{{header}}</h3>
+			<div class="form-group">
+				<input type="text" class="form-control"
+				placeholder="Username" ng-model="user.username"></input>
+			</div>
+			<div class="form-group">
+				<input type="password" class="form-control"
+				placeholder="Password" ng-model="user.password"></input>
+			</div>
+			<div class="checkbox">
+				<label>
+				  <input type="checkbox" id="adminCheck">register as admin</input>
+				</label>
+			  </div>
+			<button type="submit" class="btn btn-primary">Register</button>
+		</form>
+		
+		<div ng-show="error" class="alert alert-danger row">
+			<span>{{ error.fault }}</span>
+		</div>
+		<div ng-show="successMessage" class="alert alert-success row">
+			<span>{{ successMessage }}</span>
+		</div>

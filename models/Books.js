@@ -1,14 +1,19 @@
 var mongoose = require('mongoose');
 var GenreModel = mongoose.model('Genre');
+var searchPlugin = require('mongoose-search-plugin');
 
-var BookSchema = new mongoose.Schema({
+var BookSchema = new mongoose.Schema(
+{
   name: { type: String, index: true, unique: true},
   description: String,
   genre: { type: mongoose.Schema.Types.ObjectId, ref: 'Genre' }
 }, 
-{ versionKey: false });
+{ versionKey: false});
 
-var GenreModel = mongoose.model('Genre');
+BookSchema.plugin(searchPlugin, {
+    fields: ['name', 'description']
+  });
+
 //validation to make sure ref to genre is valid before saving doc
 BookSchema.pre('save', function (next) 
 {
