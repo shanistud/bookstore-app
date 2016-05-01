@@ -1,20 +1,20 @@
 how to run:
 
-- Install
+- Install:
 npm install
 bower install
 
-- run server
+- run server:
 npm start
 
 
 - run redis and mongodb 
 
-- run server
+- run server:
 npm start
 
 - populate db with data:
 npm run-script get-content
 
-- browse app
+- browse app:
 go to http://localhost:3000
